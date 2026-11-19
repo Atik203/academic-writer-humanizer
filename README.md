@@ -185,7 +185,7 @@ Copy-Item integrations\opencode\commands\academic-writer-humanizer.md "$HOME\.co
 ```
 
 **Invoke in OpenCode:**
-* Mention the skill: `@academic-writer-humanizer` (or `@academic-student-writer`)
+* Mention the skill: `@academic-writer-humanizer`
 * Or use the slash command: `/academic-writer-humanizer`
 
 ### Other AI Coding Agents

@@ -2,7 +2,7 @@
 description: Academic and research writing, editing, review, LaTeX manuscripts
 alwaysApply: false
 ---
-For research papers, theses, reports, and manuscript review, use the academic-student-writer skill at `<SKILL_DIR>`.
+For research papers, theses, reports, and manuscript review, use the academic-writer-humanizer skill at `<SKILL_DIR>`.
 Read `<SKILL_DIR>/SKILL.md` first and follow its section 3: read the whole project and build PROJECT_BRIEF.md and VOICE_PROFILE.md before writing. Use `templates/paper_template.tex` for new LaTeX manuscripts.
 
 Key manuscript standards:

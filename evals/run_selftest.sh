@@ -61,8 +61,8 @@ echo "$private_scan" | grep -q "SYNTHETIC_PRIVATE_SENTINEL"; check "project_scan
 echo "$private_scan" | grep -q "tokenizer.py"; check "project_scan does not hide tokenizer.py as a secret" "$?" "0"
 echo "$private_scan" | grep -Fq "$tmp"; check "project_scan omits the absolute root path" "$?" "1"
 echo "$(cat SKILL.md)" | grep -q "opencode/slash"; check "SKILL.md does not rely on unsupported OpenCode slash metadata" "$?" "1"
-grep -q '@academic-student-writer' docs/integration-guide.md; check "OpenCode guide documents direct skill invocation" "$?" "0"
-test -f integrations/opencode/commands/academic-student-writer.md; check "optional OpenCode slash-command file is included" "$?" "0"
+grep -q '@academic-writer-humanizer' docs/integration-guide.md; check "OpenCode guide documents direct skill invocation" "$?" "0"
+test -f integrations/opencode/commands/academic-writer-humanizer.md; check "optional OpenCode slash-command file is included" "$?" "0"
 grep -q '3–4 relevant cited papers' docs/writing-guide.md; check "writing guide preserves P1 citation count" "$?" "0"
 grep -q '5–6 relevant prior studies' docs/writing-guide.md; check "writing guide preserves P2 study count" "$?" "0"
 

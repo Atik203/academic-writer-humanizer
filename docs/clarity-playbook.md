@@ -47,8 +47,11 @@ First-pass test: after reading only the abstract, introduction, and conclusion, 
 | "Robust", "efficient", "effective", "accurate" without a measure | Unverifiable | Name the measure and value, or drop the word |
 | Undefined acronym or symbol; one symbol with two meanings | Confusion | Define at first use; one symbol, one meaning; notation table if over about 10 symbols |
 | Term drift: framework, approach, model, method for one thing | Reader suspects different things | Use the locked name |
-| "Existing methods" with no names | Unverifiable | Name the baselines and cite them |
+| "Existing methods" with no names | Unverifiable | Name the baselines and cite them; never dump "[3,7,9,12,15]" without saying what each shows |
 | "As shown above", "the figure", "the table" | Which one? | "Figure 3", "Table 2" |
+| Vague connection: "associated with", "linked to" | How connected? | Name relation: employed by, founded by, part of, caused by |
+| Staged run-up: "The hard part is...", "Honestly?" | Announces point | Name the thing; state the point directly |
+| "Somewhat", "relatively", "fairly", "quite" | Uncalibrated | Quantify; keep evidence-tied "suggests" where genuinely uncertain |
 | Long sentence with nested conditions | Logic hidden | Split along the logic: condition, then consequence |
 | Mixed tenses inside one paragraph | Unclear what was done versus what is true | Apply section 5 |
 

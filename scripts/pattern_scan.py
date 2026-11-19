@@ -22,18 +22,32 @@ AVOID_WORDS = [
     'holistic', 'seamless', 'seamlessly', 'comprehensive', 'notably', 'crucial', 'intricate',
     'intricacies', 'interplay', 'meticulous', 'meticulously', 'vibrant', 'enhance', 'bolstered',
     'garner', 'enduring', 'groundbreaking', 'renowned', 'state-of-the-art', 'cutting-edge', 'plethora',
+    'quietly', 'profound', 'nestled', 'breathtaking', 'stunning', 'exemplifies',
 ]
 FORMAL_OPENERS = ['Furthermore', 'Moreover', 'Additionally', 'Importantly', 'Notably', 'Interestingly',
-                  'In addition', 'It is worth noting', 'It is important to note', 'It should be noted']
+                  'In addition', 'It is worth noting', 'It is important to note', 'It should be noted',
+                  'Actually']
 CLOSERS = ['Overall', 'In summary', 'In conclusion', 'Thus', 'Therefore', 'Hence', 'Collectively',
            'Together', 'Ultimately', 'In essence']
 GENERIC_FRAMES = [
     r'plays? an? (?:crucial|vital|pivotal|important|key|significant) role',
     r"in today'?s", r'rapidly (?:evolving|changing)', r'has gained (?:significant|considerable|increasing)',
     r'in the realm of', r'a (?:wide|broad) (?:range|variety|array) of', r'it is (?:important|worth|crucial) to (?:note|mention)',
+    r'in recent years.*attracted.*attention', r'with the rapid development of', r'despite recent advances',
+    r'paves? the way', r'sheds? light on', r'bridges? the gap', r'of paramount importance',
+    r'to the best of our knowledge',
 ]
-PARTICIPIAL = re.compile(r',\s+(highlighting|demonstrating|ensuring|contributing to|underscoring|showcasing|emphasizing|paving the way)\b', re.I)
-NOT_ONLY = re.compile(r'\bnot only\b.*\bbut also\b|\bnot just\b.*\bbut\b', re.I)
+PARTICIPIAL = re.compile(r',\s+(highlighting|demonstrating|ensuring|contributing to|underscoring|showcasing|emphasizing|paving the way|encompassing|cultivating)\b', re.I)
+NOT_ONLY = re.compile(r'\bnot only\b.*\bbut also\b|\bnot just\b.*\bbut\b|\bit.s not\b.*\bit.s\b|\bthis does not mean\b.*\bit means\b', re.I)
+STAGED_RUNUP = re.compile(r"^(Let.s (dive|explore|break)|Here.s (what you need|the thing)|Here is (what you need|the thing)|Without further ado|Heads up|Quick note|Honestly\?|Look,|Here.s the thing|The thing is|Let.s be honest|Real talk)\b|the (hard|new|important) part (is|worth)", re.I)
+ARGUING = re.compile(r"\b(This isn.t (mainly )?about|I.m not saying|To be clear|Don.t get me wrong|This is not to say|Some might say|A tempting approach would be|One might be tempted to|You might think\.\.\. but)\b", re.I)
+VAGUE_CONN = re.compile(r'\b(associated with|in association with|in connection with|linked to|tied to)\b', re.I)
+SALES_LANG = re.compile(r'\b(nestled|breathtaking|stunning|must-visit|renowned|rich cultural heritage|vibrant town)\b', re.I)
+BORROWED_AUTH = re.compile(r'\b(experts (believe|argue)|observers have cited|industry reports|some critics)\b|\bcited in\b.*\b(New York Times|BBC|Financial Times|The Hindu)\b', re.I)
+CHATBOT_RESIDUE = re.compile(r'\b(Great question|I hope this helps|Of course!|Certainly!|You.re absolutely right|Want me to|Should I continue|let me know if you.d like)\b', re.I)
+KNOWLEDGE_CUTOFF = re.compile(r'\b(as of my last|up to my last training|while specific details are limited|based on available information|not publicly available|not widely documented|maintains a low profile|likely (grew up|studied|began))\b', re.I)
+HEDGE_VAGUE = re.compile(r'\b(somewhat|relatively|fairly|quite|to some extent)\b', re.I)
+OVERCLAIM = re.compile(r'\b(prove|guarantee|demonstrate (that )?(universal|superior)|significantly outperforms|for the first time|groundbreaking|revolutionize)\b', re.I)
 VAGUE = re.compile(r'\b(several|various|numerous|a number of|a variety of|multiple|many)\b', re.I)
 SIGNIF = re.compile(r'\bsignificant(?:ly)?\b', re.I)
 STAT_CUES = re.compile(r'p\s*[<=>]|confidence interval|\bCI\b|t-test|wilcoxon|anova|statistically|effect size', re.I)
@@ -77,7 +91,9 @@ def scan(text, is_tex):
         'avoid_words', 'formal_openers', 'summary_closers', 'generic_frames', 'participial_tails',
         'not_only_but_also', 'vague_quantifiers', 'significant_without_stats', 'comparison_without_referent',
         'hedge_stacks', 'ambiguous_sentence_starts', 'repeated_openers', 'repetitive_opening_family',
-        'flat_cadence', 'zero_explicit_relation_markers', 'long_sentences', 'term_cycling']}
+        'flat_cadence', 'zero_explicit_relation_markers', 'long_sentences', 'term_cycling',
+        'staged_runups', 'arguing_with_no_one', 'vague_connection', 'borrowed_authority',
+        'chatbot_residue', 'knowledge_disclaimer', 'hedge_vagueness', 'overclaim_verbs']}
     info = {'paragraphs': len(pars), 'sentences': 0, 'notes': []}
     sent_counts = []
     closers = 0
@@ -112,6 +128,24 @@ def scan(text, is_tex):
                 res['comparison_without_referent'].append((pi, COMPARATIVE.search(s).group(1), snippet(s)))
             if HEDGE_STACK.search(s):
                 res['hedge_stacks'].append((pi, 'hedge', snippet(s)))
+            if STAGED_RUNUP.search(s):
+                res['staged_runups'].append((pi, 'run-up', snippet(s)))
+            if ARGUING.search(s):
+                res['arguing_with_no_one'].append((pi, 'defense', snippet(s)))
+            if VAGUE_CONN.search(s):
+                res['vague_connection'].append((pi, VAGUE_CONN.search(s).group(1), snippet(s)))
+            if SALES_LANG.search(s):
+                res['avoid_words'].append((pi, SALES_LANG.search(s).group(1), snippet(s)))
+            if BORROWED_AUTH.search(s):
+                res['borrowed_authority'].append((pi, 'authority', snippet(s)))
+            if CHATBOT_RESIDUE.search(s):
+                res['chatbot_residue'].append((pi, 'residue', snippet(s)))
+            if KNOWLEDGE_CUTOFF.search(s):
+                res['knowledge_disclaimer'].append((pi, 'disclaimer', snippet(s)))
+            if HEDGE_VAGUE.search(s):
+                res['hedge_vagueness'].append((pi, HEDGE_VAGUE.search(s).group(1), snippet(s)))
+            if OVERCLAIM.search(s):
+                res['overclaim_verbs'].append((pi, OVERCLAIM.search(s).group(1), snippet(s)))
             if VAGUE_START.match(s):
                 res['ambiguous_sentence_starts'].append((pi, s.split()[0], 'prev: ' + snippet(prev, 70) + ' || ' + snippet(s, 70)))
             if len(s.split()) > 45:
@@ -165,7 +199,7 @@ QUESTIONS = {
     'summary_closers': 'Does the closing sentence add information, or repeat the paragraph?',
     'generic_frames': 'What concrete problem, result, or citation could open this sentence instead?',
     'participial_tails': 'What is the real consequence? Write it as its own clause or delete.',
-    'not_only_but_also': 'State the facts plainly. Is the contrast real?',
+    'not_only_but_also': 'State the facts plainly. Is the contrast real? Split contrasts ("This does not mean X. It means Y.") count here.',
     'vague_quantifiers': 'Does the project give the exact value? If not, keep an honest scope.',
     'significant_without_stats': 'Statistically significant (name the test) or merely large (give the number)?',
     'comparison_without_referent': 'Better than what, on which metric, by how much?',
@@ -177,6 +211,14 @@ QUESTIONS = {
     'zero_explicit_relation_markers': 'Check whether logical relations are clear without explicit connectors; do not add a connector solely to satisfy this warning.',
     'long_sentences': 'Can condition and consequence be split along the logic?',
     'term_cycling': 'Are these one concept under different names?',
+    'staged_runups': 'Does the opener add a fact, or only announce one? Delete the run-up and state the point.',
+    'arguing_with_no_one': 'Which reader holds this objection? If none, remove the defense and keep any real claim.',
+    'vague_connection': 'What is the exact relation (employed by, founded by, part of, caused by)? Name it or flag as unknown.',
+    'borrowed_authority': 'Which source said what? Name it with a citation or cut the claim/list.',
+    'chatbot_residue': 'Chat wrapper from drafting. Remove and keep the content.',
+    'knowledge_disclaimer': 'States a model limit or guesses. State what the source does not show, or cut. Never guess.',
+    'hedge_vagueness': 'Can this be quantified? If genuinely uncertain, use an evidence-tied hedge (suggests, is consistent with).',
+    'overclaim_verbs': 'Is the verb supported (prove/guarantee/significantly/for the first time)? Downgrade to what the evidence shows with scope.',
 }
 
 

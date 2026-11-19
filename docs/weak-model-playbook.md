@@ -103,8 +103,17 @@ Fill each slot from the project. If a slot has no evidence, write the placeholde
 | leverages / harnesses | uses |
 | demonstrating its effectiveness | "[metric] rose from [A] to [B]" |
 | Overall, / In summary, (closing every paragraph) | delete, unless it adds information |
-| not only X but also Y | "X and Y", or keep the one that matters |
-| Furthermore / Moreover / Additionally | delete, or use the real relation: "because", "however", "for example" |
+| not only X but also Y; "This does not mean X. It means Y." | "X and Y", or keep the one that matters; for split contrast state directly |
+| Furthermore / Moreover / Additionally | delete, or use the real relation: "because", "however", "for example"; never start consecutive sentences with them |
+| Let's dive in / Here's what you need to know / Honestly? / The hard part is... | delete; state the point; name what "the part" is |
+| This isn't about... / To be clear / Some might say... | delete unless a reader holds it; state the real claim |
+| associated with / linked to | name relation: employed by, founded by, part of, caused by |
+| Experts believe... / cited in [outlets] | name source + what it said with citation, or cut |
+| Great question! / I hope this helps! / As of my last update... | delete wrapper; state what source does not show or cut |
+| somewhat / relatively / fairly / quite | quantify; keep "suggests / is consistent with" where uncertain |
+| prove / guarantee / for the first time / paves the way / revolutionize | "show empirically" + metric/test/scope; "unlike [prior], we [difference]" |
+| In recent years, X has attracted attention | concrete limitation: "[Method] ignores [issue], which limits [outcome]" |
+| extensive experiments / wide range | "on [N] datasets ([names])" |
 
 ## 8. Before and after examples
 

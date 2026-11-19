@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for helping improve Academic Student Writer. Contributions should make research writing more accurate, clear, and useful while preserving research integrity and author ownership.
+Thank you for helping improve Academic Writer & Humanizer. Contributions should make research writing more accurate, clear, and useful while preserving research integrity and author ownership.
 
 ## Before you start
 

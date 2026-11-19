@@ -2,7 +2,7 @@
 
 ## Our commitment
 
-We want participation in Academic Student Writer to be respectful, constructive, and welcoming to people with different backgrounds and levels of experience.
+We want participation in Academic Writer & Humanizer to be respectful, constructive, and welcoming to people with different backgrounds and levels of experience.
 
 ## Expected behavior
 

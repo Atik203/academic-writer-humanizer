@@ -1,13 +1,14 @@
 ---
-name: academic-student-writer
-description: Research-writing skill for CSE and other technical fields. First reads the whole research project (manuscript, code, results, data, bibliography, earlier writing), then drafts, edits, clarifies, audits or reviews papers, theses, FYDP and capstone reports, and LaTeX manuscripts so they are accurate, easy to follow, unambiguous, and in the author's own voice, with awareness of AI-writing-detector limits. Use whenever the user mentions a research paper, thesis, report, abstract, introduction, methodology, results, discussion, LaTeX or BibTeX, polishing, clearer or less robotic writing, reviewer comments, or Turnitin, GPTZero or AI-detection reports, or asks an agent to write or review anything academic, even if the skill is not named.
+name: academic-writer-humanizer
+description: Research-writing & authentic humanization skill for CSE and other technical fields. First reads the whole research project (manuscript, code, results, data, bibliography, earlier writing), then drafts, edits, clarifies, audits or reviews papers, theses, FYDP and capstone reports, and LaTeX manuscripts so they are accurate, easy to follow, unambiguous, and in the author's own voice, with awareness of AI-writing-detector limits and Turnitin 0% calibration. Use whenever the user mentions a research paper, thesis, report, abstract, introduction, methodology, results, discussion, LaTeX or BibTeX, polishing, clearer or less robotic writing, reviewer comments, or Turnitin, GPTZero or AI-detection reports, or asks an agent to write or review anything academic, even if the skill is not named.
 compatibility: Plain Markdown plus optional stdlib-only Python 3.8+ scripts in scripts/. Works in any agent that can read files. If only this file can be loaded, it is self-sufficient.
 metadata:
-  version: "3.1.2"
-  last_reviewed: "2026-10-24"
+  version: "3.2.0"
+  compatibility_baseline: "3.1.2"
+  last_reviewed: "2026-11-19"
 ---
 
-# Academic Student Writer
+# Academic Writer & Humanizer
 
 ## 1. Goal
 
@@ -165,4 +166,4 @@ Do not silently replace a venue's format with a generic structure. For competing
 
 ## 11. Portability
 
-This skill is plain Markdown with imperative rules, so many file-capable agents can use it, but discovery, tool access, command syntax, and context behavior vary by runtime. OpenCode skill invocation is `@academic-student-writer`; a `/academic-student-writer` command requires the optional command definition supplied under `integrations/opencode/commands/`. If the runtime loads only this file, follow it as written; if supporting files are available, read the relevant ones on demand using section 9. If tools are missing, say what you could not verify and do not imply you checked. If context is short, prioritize: integrity, meaning preservation, evidence and citations, clarity, then style. Do not claim this skill was tested on a model unless it was; see `docs/evaluation-guide.md`.
+This skill is plain Markdown with imperative rules, so many file-capable agents can use it, but discovery, tool access, command syntax, and context behavior vary by runtime. OpenCode skill invocation is `@academic-writer-humanizer` (or `@academic-student-writer`); a `/academic-writer-humanizer` (or `/academic-student-writer`) command requires the optional command definition supplied under `integrations/opencode/commands/`. If the runtime loads only this file, follow it as written; if supporting files are available, read the relevant ones on demand using section 9. If tools are missing, say what you could not verify and do not imply you checked. If context is short, prioritize: integrity, meaning preservation, evidence and citations, clarity, then style. Do not claim this skill was tested on a model unless it was; see `docs/evaluation-guide.md`.

@@ -6,6 +6,18 @@ This file defines the **section structure and content checks** for an academic r
 
 This version incorporates the supplied section-by-section guideline while excluding project-specific titles, manuscript mappings, build facts, local paths, dated deviation records, and project-specific audit commands. Examples in the sections below are illustrative; replace them with examples appropriate to the actual research.
 
+## Executive Fast-Path Summary (Agent Quick Reference)
+
+For fast agent execution without parsing the entire 800-line guideline, adhere to these non-negotiable rules:
+- **6-Section Architecture:** Exactly 6 main numbered sections (1. Intro, 2. Conventional/Corpus, 3. Proposed Method, 4. Experiments, 5. Results, 6. Conclusion). Ask author before adding more.
+- **Subsection Control:** 4–6 core thematic groupings per section max; strictly no 5.1–5.10 sprawl.
+- **Paragraph Cohesion:** Substantive paragraphs (150–250+ words, 8–18 lines); strictly zero 3–5 line micro-paragraphs.
+- **Equation Definitions:** Always follow display math with lowercase, unindented `where $x$ denotes...` (never informal `here a = ...`).
+- **Figure Quality & Captions:** 600+ DPI, legible text ($\ge 8$ pt), concise captions ($\le 35$ words; reserve detailed analysis for body text).
+- **Evaluation Metrics:** Must contain formal subsection with complete mathematical equations for every metric reported.
+- **Single-Paragraph Conclusion:** Exactly 1 cohesive paragraph (120–160 words) stating problem, mechanism, empirical gains, and boundary condition. Zero generic fluff.
+- **Starter Template:** Primary journal template located at `templates/paper_template.tex` (`cas-sc` layout).
+
 ## How to use this guide
 
 - **Stable identifiers:** Keep the G0–G15 identifiers when planning, drafting, or auditing a manuscript. G1–G15 describe manuscript elements; G0 records the compliance audit for the current draft.

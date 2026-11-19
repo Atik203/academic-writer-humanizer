@@ -3,5 +3,15 @@ description: Academic and research writing, editing, review, LaTeX manuscripts
 alwaysApply: false
 ---
 For research papers, theses, reports, and manuscript review, use the academic-student-writer skill at `<SKILL_DIR>`.
-Read `<SKILL_DIR>/SKILL.md` first and follow its section 3: read the whole project and build PROJECT_BRIEF.md and VOICE_PROFILE.md before writing.
-Never invent results, numbers, or citations. Never help evade AI detectors or disclosure rules.
+Read `<SKILL_DIR>/SKILL.md` first and follow its section 3: read the whole project and build PROJECT_BRIEF.md and VOICE_PROFILE.md before writing. Use `templates/paper_template.tex` for new LaTeX manuscripts.
+
+Key manuscript standards:
+- 6-section standard: Max 6 main sections (Intro, Conventional Method / Corpus, Proposed Method, Experiments, Results, Conclusion).
+- Subsections: 4–6 core thematic groupings per section max; strictly avoid 5.1–5.10 sprawl.
+- Author voice: Calibrated default baseline (sentence length StDev ~10.8 words, substantive 150–250+ word paragraphs, no 3–4 line micro-paragraphs).
+- Equations: Follow display equations with lowercase, unindented `where $x$ denotes...` (never `here a = ...`).
+- Figures: 600+ DPI, legible text (>=8 pt), concise captions (<=35 words; place analysis in prose).
+- Experiments: Include formal Evaluation Metrics subsection with mathematical formulas.
+- Conclusion: Exactly one cohesive single paragraph (120–160 words).
+- Zero AI clichés: No tapestry, delve, crucial role, furthermore, or in conclusion.
+- Research integrity: Never invent results, numbers, or citations. Ground all claims in evidence.

@@ -28,6 +28,12 @@ echo "$flat" | grep -q "DIAGNOSTIC ONLY"; check "pattern findings are explicitly
 good_cadence=$(python3 scripts/pattern_scan.py evals/fixtures/latex/edited_good.tex)
 echo "$good_cadence" | grep -q "flat_cadence"; check "pattern_scan does not flag the good prose fixture for flat cadence" "$?" "1"
 
+violations=$(python3 scripts/pattern_scan.py evals/fixtures/latex/style_violations.tex)
+echo "$violations" | grep -q "informal_equation_vars"; check "pattern_scan flags informal equation variable definitions" "$?" "0"
+echo "$violations" | grep -q "micro_paragraphs"; check "pattern_scan flags micro-paragraphs" "$?" "0"
+echo "$violations" | grep -q "overlong_captions"; check "pattern_scan flags overlong captions" "$?" "0"
+echo "$violations" | grep -q "subsection_sprawl"; check "pattern_scan flags subsection sprawl" "$?" "0"
+
 good_metric=$(python3 scripts/metric_consistency.py --root . --manifest evals/fixtures/metric_audit/metric-audit.csv >/dev/null 2>&1; echo $?)
 check "metric_consistency accepts matching prose and table values" "$good_metric" "0"
 bad_prose_metric=$(python3 scripts/metric_consistency.py --root . --manifest evals/fixtures/metric_audit/metric-audit-bad-prose.csv >/dev/null 2>&1; echo $?)

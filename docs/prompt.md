@@ -6,6 +6,18 @@
 
 **Read first:** `SKILL.md` section 3 (what to do before writing) and `docs/project-intake.md`. This file holds the detailed rules; `docs/clarity-playbook.md` holds the ambiguity and flow method.
 
+## Fast-Path Executive Summary (Agent Quick Reference)
+
+For fast agent execution without scanning all 630 lines, apply these non-negotiable rules:
+- **Default Author Voice:** Calibrated baseline from Turnitin 0% benchmark: Sentence length StDev $\approx 10.8$ words (span 5–49 words, mean 21.6), paragraph mean $\approx 225$ words (substantive 150–250+ words, 8–18 lines; zero 3–5 line micro-paragraphs).
+- **Locked 6-Section Standard:** Max 6 main sections (Intro, Conventional Method / Corpus, Proposed Method, Experiments, Results, Conclusion). 4–6 core thematic subsections max (no 5.1–5.10 sprawl).
+- **Equation Definitions:** Always define display math variables with lowercase, unindented `where $x$ denotes...` (never `here a = ...`).
+- **Figures & Captions:** 600+ DPI, legible font ($\ge 8$ pt), concise captions ($\le 35$ words; place explanations in body text).
+- **Evaluation Metrics:** Experiments section must include formal mathematical definitions for all metrics.
+- **Single-Paragraph Conclusion:** Exactly 1 cohesive paragraph (120–160 words) grounded in quantitative findings. No generic meta-fluff.
+- **Forbidden Clichés:** Tapestry, delve, crucial role, testament, beacon, furthermore, in conclusion, overall.
+- **Starter Template:** `templates/paper_template.tex` (`cas-sc` layout).
+
 ## Contents
 0. Core contract (quality hierarchy, zero-invention, voice, project grounding)
 1. Operating modes

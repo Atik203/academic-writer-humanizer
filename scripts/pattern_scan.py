@@ -57,16 +57,22 @@ COMPARATIVE = re.compile(r'\b(better|faster|slower|higher|lower|superior|more ac
 COMPARE_REF = re.compile(r'\bthan\b|\bover\b|compared (?:to|with)|relative to|versus|\bvs\.?\b|baseline|against', re.I)
 HEDGE_STACK = re.compile(r'\b(?:may|might|could)\s+(?:potentially|possibly|perhaps)\b|\b(?:potentially|possibly)\s+(?:may|might|could)\b', re.I)
 VAGUE_START = re.compile(r'^(This|These|Those|It|They|Such)\s+(is|are|was|were|has|have|had|can|could|may|might|will|would|means|shows|show|allows|leads|makes|helps|enables|improves|reduces|increases|suggests|indicates|ensures)\b')
+INFORMAL_VAR = re.compile(r'\bhere,?\s+(?:X|[a-zA-Z0-9_\\]+|\$[^\$]+\$)\s*(?:=|is|are|denotes?|represents?)\b', re.I)
 SYNONYM_SET = ['framework', 'approach', 'paradigm', 'methodology', 'architecture', 'technique', 'strategy', 'scheme']
 ABBREV = ['e.g.', 'i.e.', 'et al.', 'Fig.', 'Figs.', 'Eq.', 'Eqs.', 'Sec.', 'vs.', 'cf.', 'approx.', 'No.']
 
 
 def clean(text, is_tex):
     if is_tex:
+        if r'\begin{document}' in text:
+            text = text.split(r'\begin{document}', 1)[1]
+        if r'\end{document}' in text:
+            text = text.split(r'\end{document}', 1)[0]
         text = re.sub(r'(?<!\\)%.*', '', text)
         text = re.sub(r'\\begin\{(equation\*?|align\*?|gather\*?|multline\*?|eqnarray\*?|tabular\*?|table\*?|figure\*?|lstlisting|verbatim|algorithm\*?|algorithmic)\}.*?\\end\{\1\}', ' ', text, flags=re.S)
         text = re.sub(r'\$\$.+?\$\$|\\\[.+?\\\]|(?<!\\)\$.+?(?<!\\)\$', ' X ', text, flags=re.S)
         text = re.sub(r'\\(?:[a-zA-Z]*cite[a-zA-Z]*|[a-zA-Z]*ref|eqref|label)\*?(?:\[[^\]]*\])*\{[^}]*\}', ' [REF] ', text)
+        text = re.sub(r'\\(?:author|address|affiliation|ead|credit|cormark|keywords|shorttitle|shortauthors|title|tnotetext|cortext)\*?(?:\[[^\]]*\])?\{[^}]*\}', ' ', text)
         text = re.sub(r'\\(?:textbf|textit|emph|texttt|section|subsection|subsubsection|paragraph|caption|title)\*?\{([^}]*)\}', r'\1', text)
         text = re.sub(r'\\[a-zA-Z]+\*?(?:\[[^\]]*\])?', ' ', text)
         text = text.replace('{', ' ').replace('}', ' ')
@@ -95,7 +101,8 @@ def scan(text, is_tex):
         'hedge_stacks', 'ambiguous_sentence_starts', 'repeated_openers', 'repetitive_opening_family',
         'flat_cadence', 'zero_explicit_relation_markers', 'long_sentences', 'term_cycling',
         'staged_runups', 'arguing_with_no_one', 'vague_connection', 'borrowed_authority',
-        'chatbot_residue', 'knowledge_disclaimer', 'hedge_vagueness', 'overclaim_verbs']}
+        'chatbot_residue', 'knowledge_disclaimer', 'hedge_vagueness', 'overclaim_verbs',
+        'informal_equation_vars', 'micro_paragraphs', 'overlong_captions', 'subsection_sprawl']}
     info = {'paragraphs': len(pars), 'sentences': 0, 'notes': []}
     sent_counts = []
     closers = 0
@@ -103,6 +110,9 @@ def scan(text, is_tex):
         sents = sentences(par)
         sent_counts.append(len(sents))
         info['sentences'] += len(sents)
+        par_words = len(par.split())
+        if len(sents) <= 2 and par_words < 35 and not par.lower().startswith(('where ', 'with ', 'and ')):
+            res['micro_paragraphs'].append((pi, '%d words, %d sent' % (par_words, len(sents)), snippet(par, 90)))
         for w in AVOID_WORDS:
             for m in re.finditer(r'\b' + re.escape(w) + r'\b', par, re.I):
                 res['avoid_words'].append((pi, w, snippet(par[max(0, m.start() - 50):m.end() + 50])))
@@ -148,6 +158,8 @@ def scan(text, is_tex):
                 res['hedge_vagueness'].append((pi, HEDGE_VAGUE.search(s).group(1), snippet(s)))
             if OVERCLAIM.search(s):
                 res['overclaim_verbs'].append((pi, OVERCLAIM.search(s).group(1), snippet(s)))
+            if INFORMAL_VAR.search(s):
+                res['informal_equation_vars'].append((pi, 'informal variable', snippet(s)))
             if VAGUE_START.match(s):
                 res['ambiguous_sentence_starts'].append((pi, s.split()[0], 'prev: ' + snippet(prev, 70) + ' || ' + snippet(s, 70)))
             if len(s.split()) > 45:
@@ -184,6 +196,21 @@ def scan(text, is_tex):
             relation = re.compile(r'\b(?:because|since|therefore|thus|as a result|consequently|however|in contrast|whereas|although|if|when|for example|specifically|in this setting|under this assumption)\b', re.I)
             if not any(relation.search(s) for s in sents[1:]):
                 res['zero_explicit_relation_markers'].append((pi, 'no explicit relation marker', 'Check whether cause, contrast, condition, sequence, or evidence relations are still clear.'))
+    if is_tex:
+        for m in re.finditer(r'\\caption(?:\s*\[[^\]]*\])?\s*\{((?:[^{}]|\{[^{}]*\})*)\}', text):
+            cap_text = m.group(1).strip()
+            cap_words = len(cap_text.split())
+            if cap_words > 35:
+                res['overlong_captions'].append((0, '%d words' % cap_words, snippet(cap_text, 100)))
+
+        sec_blocks = re.split(r'\\section\*?\{([^}]+)\}', text)
+        if len(sec_blocks) > 1:
+            for i in range(1, len(sec_blocks), 2):
+                sec_name = sec_blocks[i].strip()
+                sec_content = sec_blocks[i+1]
+                subsecs = re.findall(r'\\subsection\*?\{([^}]+)\}', sec_content)
+                if len(subsecs) > 6:
+                    res['subsection_sprawl'].append((0, '%s (%d sub)' % (sec_name, len(subsecs)), 'Section has %d subsections (>6 max recommendation).' % len(subsecs)))
     low = text.lower()
     used = [w for w in SYNONYM_SET if re.search(r'\b' + w + r'\b', low)]
     if len(used) >= 3:
@@ -221,6 +248,10 @@ QUESTIONS = {
     'knowledge_disclaimer': 'States a model limit or guesses. State what the source does not show, or cut. Never guess.',
     'hedge_vagueness': 'Can this be quantified? If genuinely uncertain, use an evidence-tied hedge (suggests, is consistent with).',
     'overclaim_verbs': 'Is the verb supported (prove/guarantee/significantly/for the first time)? Downgrade to what the evidence shows with scope.',
+    'informal_equation_vars': 'Variables should be defined formally using lowercase "where $x$ denotes..." directly following display math, rather than informal "here $x$ = ...".',
+    'micro_paragraphs': 'Fragmented 1-2 sentence micro-paragraph (<35 words). Consolidate related context, mechanics, and implications into cohesive, substantive paragraphs (150-250+ words).',
+    'overlong_captions': 'Caption exceeds 35 words. Keep figure and table captions concise (1-2 sentences); reserve detailed analysis and statistical interpretations for the body text.',
+    'subsection_sprawl': 'Section contains >6 subsections. Consolidate into core structural groupings to preserve argumentative momentum instead of fragmenting into 5.1-5.10.',
 }
 
 

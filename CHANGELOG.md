@@ -1,3 +1,18 @@
+# Changelog
+
+## 3.2.0 (2026-11-19)
+
+- **Renamed to Academic Writer & Humanizer:** Shifted repository identity to emphasize authentic academic humanization and empirical evidence fidelity.
+- **Turnitin 0% Calibrated Author Voice:** Integrated calibrated author voice baseline directly from peer-reviewed 0% AI-detected journal papers (`HaluRISC` architecture; sentence length StDev $\approx 10.8$ words, span 5–49 words, substantive 150–250+ word paragraphs, zero micro-paragraphs). Added `writing-support/VOICE_PROFILE.md` and updated `templates/voice-profile.md`.
+- **Elsevier `cas-sc` Journal Starter Template:** Created `templates/paper_template.tex` with publication-ready preamble, float placement parameters, author block, high-resolution 600+ DPI figure specifications, concise captions ($\le 35$ words), formal equation definition clauses, algorithm environment, evaluation metrics formulas, and modular options for Method-focused, Dataset-focused, and Mixed papers.
+- **5 Structural Evasion & Humanization Principles:** Formally incorporated PDTB 2.0 discourse connector rotation, syntactic tree inversion, determiner anti-monotony, 5-gram cliché shattering, and risk-driven citation shielding into `SKILL.md`, `docs/writing-guide.md`, and `docs/prompt.md`.
+- **Locked 6-Section Standard Architecture:** Codified standard 6 main sections (Intro, Conventional/Corpus, Proposed Method, Experiments, Results, Conclusion) with 4–6 core subsections max (preventing 5.1–5.10 sprawl) and strictly single-paragraph conclusions (120–160 words).
+- **Automated Diagnostic Suite Upgrades:** Added detection in `scripts/pattern_scan.py` for informal equation variables (`here a = ...`), micro-paragraphs ($< 35$ words, $\le 2$ sentences), overlong captions ($> 35$ words), and subsection sprawl ($> 6$ subsections).
+- **Fast-Path Executive Summaries:** Added 1-page quick-reference executive headers to `docs/writing-guide.md` and `docs/prompt.md` to prevent agent context token bloat.
+- **Multi-Agent Integrations Synchronized:** Synchronized `CLAUDE.md`, `GEMINI.md`, `clinerules.md`, `copilot-instructions.md`, `academic-writer.mdc`, and `AGENTS.md`.
+- **OpenCode Enhancements:** Added slash command definition in `integrations/opencode/commands/` supporting `/academic-writer-humanizer` alongside native `@academic-writer-humanizer` and `@academic-student-writer`.
+- **Expanded Test Suite:** Expanded `evals/run_selftest.sh` to 46 automated regression tests with 100% pass rate.
+
 ## 3.1.2 (2026-10-24)
 
 - Added directly sourced Turnitin facts to the main skill and detector-awareness guide: current 300-word qualifying-prose requirement, current unified blue English report presentation (2026-08-04), English-model update (2026-10-14), and links to official pages.
@@ -7,8 +22,6 @@
 - Relaxed rigid paragraph instructions: state the paragraph's purpose early in most cases; scope empirical/comparative claims with applicable fields; do not force project-specific data into conceptual or transitional paragraphs. Clarified that project inventory does not mean every file can or should be fully read, and that large/private data should be inspected safely.
 - Replaced an unsupported generalization that generic phrasing is the most common cause of machine-like prose with a qualified writing-quality statement.
 - Updated README, prompt metadata and version references for v3.1.2.
-
-# Changelog
 
 ## 3.1.1 (2026-10-24)
 

@@ -1,9 +1,12 @@
 cff-version: 1.2.0
-message: "If you use this skill, please cite it as software."
-title: "Academic Student Writer"
+message: "If you use this software, please cite it as below."
+title: "Academic Writer & Humanizer"
 type: software
-version: "3.1.2"
-date-released: "2026-10-24"
+version: "3.2.0"
+date-released: "2026-11-19"
 license: MIT
+url: "https://github.com/Atik203/academic-writer-humanizer"
+repository-code: "https://github.com/Atik203/academic-writer-humanizer"
 authors:
-  - name: "Academic Student Writer contributors"
+  - name: "Md. Atikur Rahaman"
+  - name: "Academic Writer & Humanizer contributors"

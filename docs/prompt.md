@@ -56,9 +56,16 @@ Do not invent or silently alter:
 
 If evidence is missing, do one of the following: use a clearly marked placeholder, ask a concise author question, or phrase a statement narrowly enough to match the evidence already supplied.
 
-### 0.4 Preserve the author's voice
+### 0.4 Preserve and default to the author's voice
 
-Do not replace every sentence with one uniform house style. Keep distinctive wording when it is accurate, clear, and appropriate. Improve confusing or inflated passages without making the paper sound as if every section was written from the same generic template.
+Do not replace every sentence with one uniform house style. By default, the skill operates under the **Calibrated Default Author Voice** (derived from the author's 0% Turnitin benchmark in `writing-support/VOICE_PROFILE.md`):
+- High natural burstiness (sentence length mean $\approx 20$ words, StDev $\approx 10.8$ words, ranging from 3 to 70+ words).
+- Substantial, cohesive paragraphs (mean $\approx 225$ words; strictly no 3–6 line fragmented stubs).
+- Natural subordinating and logical connectors (`While`, `Although`, `Therefore`, `Since`, `However`; zero instances of AI clichés like *"Furthermore"*, *"Moreover"*, or *"In conclusion"*).
+- Rigorous mathematical formulations followed immediately by lowercase `where $a$ denotes...` (never informal `"here a = ..."`).
+- Exactly 6 main sections standard, core subsections only, and strictly a one-paragraph conclusion.
+
+If an author provides a separate project-specific sample, adapt to it; otherwise, enforce this calibrated author voice as the active default baseline across all modes. Improve confusing passages without flattening the paper into generic AI prose.
 
 ### 0.5 Ground the text in the project
 
@@ -195,6 +202,24 @@ Do **not** impose fixed word counts, require a short and long sentence in every 
 
 Remove repeated definitions, empty introductions, duplicated claims, and words that do not change meaning. Preserve methodological detail needed for replication and qualifications needed for scientific accuracy. Concision is not the same as making every sentence short.
 
+### F9. PDTB 2.0 Discourse Connective Rotation
+
+AI writing over-indexes on rigid additive connectors (*"Furthermore"*, *"Moreover"*, *"Additionally"*, *"In conclusion"*). Systematically rotate transitions using Penn Discourse Treebank (PDTB 2.0) relation classes:
+- *Adversative/Contrast:* however, in contrast, whereas, conversely.
+- *Causal/Consequence:* consequently, to this end, therefore, as a result.
+- *Temporal/Sequential:* subsequently, during evaluation, in the second stage, next.
+- *Zero-connector opening:* open directly on the concrete subject, finding, or dataset.
+
+Never open consecutive paragraphs with connectors from the same discourse class.
+
+### F10. Sentence-Starter Diversity (FIFO Anti-Repetition)
+
+Avoid consecutive sentences opening with identical structures or determiners (e.g., *"The [Model]..."* followed by *"The [Classifier]..."* or *"This [Approach]..."*). Maintain syntactic variance by alternating openers:
+- Prepositional phrases: *"Across the evaluated benchmarks, ..."*
+- Participial/Gerund clauses: *"Evaluating the validation loss, ..."*
+- Conditional/Subordinate clauses: *"Where GPU memory is constrained, ..."*
+- Concrete nominal subjects: *"EC-XGB reduces ..."*
+
 ## 3. Natural academic prose
 
 ### N1. Direct vocabulary
@@ -269,6 +294,7 @@ Generic, over-polished phrasing is one common reason LLM prose feels repetitive 
 | Empty meta-text: "This section presents..." | No content | Start with the content |
 | Unsupported superlatives: "novel", "state-of-the-art", "robust", "comprehensive" | Unverifiable | Say what is new and against what; name the benchmark, year, or test |
 | Formal connectors at the start of many sentences (Furthermore, Moreover, Additionally, Importantly) | Formulaic | Use only when the relation is real |
+| Statistical AI 4-grams and 5-grams: "stands as a testament to", "comprehensive tapestry", "serves as a critical milestone", "cannot be overlooked", "delve deep into the multifaceted", "provides a robust framework" | High-probability n-gram tokens heavily flagged by perplexity detectors | Replace with direct factual statement: reflects, covers, marks, is essential, analyze, gives a basis |
 
 `scripts/pattern_scan.py` can list candidates. A hit is a question ("what specific thing does this sentence say?"), not a defect to delete mechanically, and a clean scan proves nothing about quality.
 
@@ -332,10 +358,18 @@ Use active voice when the actor matters or it makes the explanation direct. Use 
 ### P6. Section openings and endings
 
 Avoid empty meta-openers such as “This section presents...” when a direct technical statement would be clearer. They may be appropriate in long documents or when they orient a reader to an unusual structure. End a section with the final important claim, result, limitation, or transition; do not add a generic “paves the way” sentence without substance.
+- **Conclusion Architecture (ONE Paragraph Only):** The Conclusion section must be written as strictly ONE single cohesive paragraph (typically 120–160 words). State the core problem addressed, the evaluated method/approach, the definitive experimental outcomes, operational boundaries/limitations, and immediate future direction. Never split the Conclusion into multiple paragraphs or bulleted lists.
 
-### P7. Paragraph length
+### P7. Paragraph length & cohesion
 
-Vary paragraph length according to complexity and purpose. Avoid one-sentence paragraphs when they fragment an argument, but retain them when a single statement needs emphasis or a format requires it. There is no mandatory paragraph sentence count.
+Vary paragraph length according to complexity and purpose, but avoid fragmented micro-paragraphs. Do NOT write short 3, 4, 5, or 6-line stub paragraphs. Instead, consolidate related thoughts into a substantial, unified main paragraph (typically 8–15 lines / 120–200 words) that fully develops the topic, claim, and evidence, rather than creating multiple tiny disjointed fragments. There is no mandatory sentence count, but paragraphs must feel substantive and complete.
+
+### P8. Syntactic Tree Inversion & Burstiness Variance
+
+AI detectors evaluate statistical burstiness (sentence length variance and dependency tree depth). Monotonous runs of uniform medium-length sentences (15–20 words) signal synthetic drafting. Actively vary syntax depth:
+- Pair a short, definitive claim (6–10 words) immediately alongside a complex compound sentence (25–35 words).
+- Use introductory topicalization (shift prepositional or dependent clauses to sentence-initial positions) to alternate clause hierarchies.
+- Balance active and passive voice to distribute grammatical agent emphasis naturally.
 
 ## 6. Specificity, evidence, and research logic
 
@@ -396,6 +430,10 @@ When combining multiple papers, represent each study accurately and then state t
 
 Retain the existing citation style (numeric, author–year, APA, IEEE, ACM, Vancouver, BibTeX, etc.) unless the user asks to convert it. Respect special requirements for footnotes, legal cases, standards, software, data, and preprints.
 
+### C7. Risk-Driven Citation Shielding
+
+Plagiarism and similarity engines (Turnitin, iThenticate) compute rolling Rabin-Karp hashes over sliding windows ($k \approx 5$). Contiguous matching sequences of $\ge 8$ words produce a hash fingerprint collision. Where appropriate in literature reviews and comparative discussions, place citation keys (`\cite{...}`) directly at dense claim boundaries and comparative clauses rather than stacking all citations at the end of the paragraph. The citation token mechanically severs contiguous hash sequences without altering semantic meaning.
+
 ## 8. Technical conventions
 
 ### T1. Equations and symbols
@@ -405,6 +443,7 @@ Retain the existing citation style (numeric, author–year, APA, IEEE, ACM, Vanc
 - Use one symbol consistently for one quantity unless the notation explicitly distinguishes contexts.
 - Never silently correct an equation based on a guess. Flag suspected mathematical errors.
 - Verify that prose agrees with the equation's terms, signs, constraints, and stated optimization objective.
+- **Strict Variable Syntax ("where..."):** Always introduce variable definitions using formal academic grammar: `where $a$ denotes the ...`, `$b$ represents the ...`. Strictly forbid informal syntax like "here a = answers" or "here x is...".
 
 ### T2. Algorithms and pseudocode
 
@@ -417,7 +456,8 @@ Keep dataset names, versions, task definitions, split strategy, random seeds, ev
 ### T4. Tables and figures
 
 - Refer to every important table or figure in the text.
-- Captions should describe what is shown and define unusual abbreviations where needed.
+- **Concise Figure Captions:** Captions should be concise and descriptive (1–2 lines max, stating clearly what is shown and defining unusual abbreviations). Do not write large multi-sentence explanatory paragraphs inside the caption. Move in-depth technical explanations, trend comparisons, and takeaways into the accompanying body paragraph referencing the figure.
+- **Image Resolution & Typography (600+ DPI):** Figures, plots, diagrams, and infographics must be high-resolution (minimum 600+ DPI or clean vector PDF/SVG). Internal typography, axis labels, legends, and annotations must use large, legible font sizes comparable to the main body text font size (never tiny or illegible when scaled to column width).
 - Report units, sample counts, uncertainty estimates, and significance annotations consistently.
 - Do not infer information from an unseen figure or table. Ask for the asset or describe the limitation.
 - Do not repeat every table cell in prose. Explain the most important pattern, contrast, or exception.

@@ -67,8 +67,9 @@ The remedy is better writing, not disguise: ground substantive research claims i
 2. Grounds every substantive research claim in evidence, verified literature, or explicit reasoning; uses project-specific anchors when they help the reader and never invents one.
 3. Uses the locked terminology; one name per concept.
 4. Avoids the pattern-level tells in `docs/prompt.md` section 4.
-5. States the authorship rung (SKILL.md section 4). Prefers rungs A and B. At C and D it says once that disclosure or author verification may be required by applicable policy, recommends that the author revise and verify, and offers the AI-use ledger. It does not predict detector scores.
-6. Treats `scripts/pattern_scan.py` output as questions about specificity, never as a score to drive down.
+5. Applies structural anti-monotony principles (discourse connective rotation, syntactic tree variation, sentence-starter cycling, and risk-driven citation placement).
+6. States the authorship rung (SKILL.md section 4). Prefers rungs A and B. At C and D it says once that disclosure or author verification may be required by applicable policy, recommends that the author revise and verify, and offers the AI-use ledger. It does not predict detector scores.
+7. Treats `scripts/pattern_scan.py` output as questions about specificity, never as a score to drive down.
 
 ## 6. What the agent must not do
 

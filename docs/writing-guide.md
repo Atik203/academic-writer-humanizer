@@ -45,6 +45,21 @@ Do not impose a generic paper structure over explicit venue instructions. When t
 
 This table is a default organization, not a replacement for a venue template. Some papers combine methods and experiments, omit an inapplicable section, move related work, or use required structured statements. Keep the substantive logic even when the heading order changes.
 
+### Universal Structural, Section & Paragraph Constraints
+- **No Artificial Page Limits:** Remove arbitrary page limits or artificial word caps. The manuscript's length is governed strictly by scientific rigor, technical completeness, and the target venue's official instructions.
+- **Standard 6-Section Architecture (Strictly Recommended):** The manuscript should be organized into **exactly 6 main numbered sections** as standard:
+  1. Introduction
+  2. Conventional Method(s) (or Baseline / Related Work)
+  3. Proposed Method
+  4. Experiments (including Setup, Dataset, and Mandatory Evaluation Metrics)
+  5. Results (with Statistical Analysis & Comparative Discussion)
+  6. Conclusion (STRICTLY ONE SINGLE PARAGRAPH)
+  *(followed by standard unnumbered back-matter: Declarations, Acknowledgements, and References)*.
+  *Rule:* Exactly 6 sections is the locked default standard. If more sections are ever required, ask the author/supervisor first before creating extra sections.
+- **Anti-Fragmentation Rule (Core Subsections Only, No Sprawl):** Do NOT create excessive subsection lists (e.g. sprawling into 4.1–4.8 or 5.1–5.10). Limit each section to only **core subsections** (typically 2 to 5 per section max). Subsume smaller sub-topics, metrics, or points into substantial cohesive paragraphs under the core subsections rather than fragmenting into minor headings.
+- **Paragraph Cohesion Rule (No Fragmented Micro-Paragraphs):** Do NOT write short 3, 4, 5, or 6-line fragmented stub paragraphs. Consolidate related sentences into a substantial, unified, and cohesive main paragraph (typically 120–250+ words / 8–18 lines) for each specific technical topic, claim, or mechanism, avoiding disjointed micro-paragraphs.
+- **Conclusion Architecture (Strictly ONE Single Paragraph):** The Conclusion must be **strictly ONE single paragraph** (typically 120–160 words). It must concisely state: the core problem addressed, the tested model/approach, the definitive empirical findings (e.g. ranking vs. calibration trade-offs), practical operational boundaries/limitations, and immediate future adaptation. No bullet points, no multiple paragraphs, and no new results or citations.
+
 ## G0. Compliance matrix for the current manuscript
 
 Use this matrix as a living audit record. Fill in the evidence column with a current section, paragraph, equation, table, bibliography entry, or build result. Use `N/A` only when the requirement genuinely does not apply, and explain any material deviation from a SHOULD recommendation. Do not pre-fill PASS statuses.
@@ -453,11 +468,13 @@ The Conventional Method(s) section presents the baseline or existing method(s) f
 
 - **Technical Formulation**
 
-  - Describe the method mathematically where appropriate.
+  - Describe the method mathematically with comprehensive rigor.
 
-  - Include relevant equations, mathematical formulations, parameters, and objective functions.
+  - Include relevant equations, mathematical formulations, parameters, and objective functions with complete step-by-step explanations.
 
-  - Define important variables and terms clearly.
+  - **Strict Variable Definition Syntax ("where..."):** Never use informal expressions like "here a = answers" or "here x is...". Always define variables using standard formal academic syntax:
+    $$\text{[Equation]}$$
+    followed by: `where $a$ denotes the ...`, `$b \in \mathbb{R}^d$ represents the ...`, and `$c$ designates the ...`.
 
 - **Algorithm / Procedure**
 
@@ -514,11 +531,13 @@ The Proposed Method section describes the newly developed approach introduced to
 
 - **3.2 Technical Formulation**
 
-  - Present the mathematical formulation of the proposed method.
+  - Present the mathematical formulation of the proposed method with step-by-step mathematical rigor.
 
-  - Define equations, parameters, variables, constraints, objective functions, or other technical components.
+  - Define equations, parameters, variables, constraints, objective functions, tensor dimensions, and technical components in thorough detail.
 
   - Clearly show any modification, extension, or newly introduced component compared with the conventional method.
+
+  - **Strict Variable Definition Syntax ("where..."):** Strictly forbid informal definitions like "here a = answers". Always use formal mathematical syntax: `where $\mathbf{x} \in \mathbb{R}^d$ denotes the ...`, defining all symbols explicitly.
 
 - **3.3 Algorithm / Procedure**
 
@@ -621,15 +640,15 @@ This creates a very clear research narrative:
 
   - Parameter selection/tuning strategy
 
-- **4.5 Evaluation Metrics**
+- **4.5 Evaluation Metrics (STRICTLY MANDATORY)**
 
-  - Accuracy, Precision, Recall, F1-score, etc., where applicable
+  - An Evaluation Metrics subsection is strictly mandatory in the Experiments section.
 
-  - Error/performance measures
+  - Must provide complete mathematical formulations and formal equations for every evaluation metric used (e.g., Accuracy, Precision, Recall, F1-score, IoU, mAP, RMSE, BLEU, etc.).
 
-  - Mathematical formulation of metrics
+  - **Strict Variable Syntax ("where..."):** Define all variables in metric equations using standard formal syntax: `where $\text{TP}$ denotes true positives, $\text{FP}$ represents false positives...`. Never use informal phrasing like "here a = ...".
 
-  - Statistical measures, if applicable
+  - **Algorithms & Pseudocode:** Include formal pseudocode / algorithmic block (e.g., Algorithm 1: Training or Inference Workflow) if custom procedures or algorithms are evaluated.
 
 **Recommended structure:**
 
@@ -638,51 +657,25 @@ This creates a very clear research narrative:
 ---
 
 ## G10. Results
-Results should be presented and analyzed based on the defined evaluation metrics, because the metrics provide the basis for interpreting and comparing the experimental outcomes.
+Results should be presented and analyzed rigorously using both quantitative evaluation and statistical analytics, integrating proper figures, plots, and comparison tables.
 
-- **5.1 Results Based on Evaluation Metrics**
+- **Subsection Grouping (Avoid Sprawl):** Do NOT fragment the Results section into excessive subheadings (e.g., avoid 5.1 to 5.10). Group results into 3 to 4 cohesive, unified subsections:
+  - **5.1 Performance Evaluation & Comparison:** Group related metric comparisons (Accuracy, F1, Loss, etc.) against conventional and baseline methods in cohesive tables and plots rather than a separate subsection for every metric.
+  - **5.2 Ablation Study & Component Analysis:** Quantify the isolated contribution of each architectural or algorithmic component.
+  - **5.3 Statistical Analysis & Key Discussion:** Interpret the statistical significance (p-values, confidence intervals, effect size, variance) and discuss why the proposed method achieves the observed outcomes.
 
-  - Accuracy-based Results
+- **Statistical Analytics & Robustness:**
+  - Mandatory reporting of statistical measures: Mean, standard deviation / variance across multiple runs, confidence intervals (e.g. 95% CI), and significance tests (p-values, effect size).
+  - Do not merely claim "higher performance" without statistical support.
 
-  - Precision-based Results
-
-  - Recall-based Results
-
-  - F1-score-based Results
-
-  - And so on
-
-- **5.2 Comparative Results**
-
-  - Conventional/baseline vs. proposed method
-
-  - Metric-wise comparison
-
-  - Improvement/reduction in performance measures
-
-- **5.3 Ablation Study (if applicable)**
-
-  - An ablation study in machine learning is an experiment where you remove, disable, or replace specific components (like layers, features, or modules) of a model to measure how much they contribute to its overall performance.
-
-- **5.4 Statistical Analysis**
-
-  - Confidence Interval
-
-  - Effect size
-
-  - t/p value
-
-- **5.5 Discussion of Experimental/Key Findings**
-
-  - Interpretation of the metric-wise results
-
-  - Why the proposed method performs differently
-
-  - Strengths and limitations observed from the experiments
+- **Visualizations, Plots, Tables & Image Standards:**
+  - **Figures & Plots:** Include high-quality plots (e.g. ROC/PR curves, convergence/loss graphs, confusion matrices, ablation bar charts) paired with comprehensive comparison tables.
+  - **Resolution & Typography (600+ DPI):** All images, figures, plots, and infographics must be high-resolution (minimum **600+ DPI** for raster or clean vector PDF/SVG). All internal text, axis labels, legends, and numbers must use **large, legible font sizes** comparable to the main text font (never tiny, blurry, or unreadable when scaled to column width).
+  - **Concise Figure Captions:** Figure and table captions must be concise and descriptive (1–2 lines max, clearly stating what is shown). Do NOT write large multi-sentence explanatory paragraphs inside `\caption{}`. The full technical narrative, trend analysis, and interpretation must be presented in the accompanying body paragraph referencing the figure.
 
 **Recommended structure:**
 
-`Metric-wise Analysis → Comparison → Ablation → Statistical Validation → Findings`
+`Performance Comparison (Tables & Plots) → Ablation Analysis → Statistical Validation & Discussion`
 
 ---
 
@@ -704,6 +697,8 @@ A Conclusion section should briefly summarize the research, the main contributio
 **Recommended structure:**
 
 `Conclusion = Objective → Contribution → Key Findings → Significance → Future Work`
+
+**Mandatory Paragraph Rule:** The Conclusion must be written as **strictly ONE single cohesive paragraph** (typically 120–160 words). Never split the Conclusion into multiple paragraphs, and never format it as a bulleted or numbered list.
 
 **Important:** Avoid introducing new results, new methods, or new references in the Conclusion.
 

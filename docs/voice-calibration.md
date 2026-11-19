@@ -56,3 +56,12 @@ Fill `templates/voice-profile.md` and save it as `writing-support/VOICE_PROFILE.
 ## 6. Updating and limits
 
 When the author edits your output, learn from the edits: if they repeatedly change X to Y, record that preference. Re-check the profile when new author-written text appears. Do not imitate a specific named person without that person's authorization.
+
+## 7. Default Author Voice Baseline
+
+When a task begins without a project-specific voice profile, the skill does not default to generic, flat LLM prose. Instead, it activates the **Calibrated Default Author Profile** (`writing-support/VOICE_PROFILE.md`, benchmarked on `halurisc.tex` with High Confidence):
+- **Burstiness & Sentence Cadence:** High natural variance ($\sigma \approx 10.8$ words, sentence range 3–70+ words; mean 20.4 words).
+- **Paragraph Volume:** Substantial, unified blocks (mean 225 words, median 207 words; strictly ban 3–6 line micro-paragraphs).
+- **Transitions:** Natural subordinators (`While`, `Although`, `Since`, `Because`) and contextual adverbs (`Therefore`, `However`, `Thus`). Complete avoidance of AI cliché markers (*"Furthermore"*, *"Moreover"*, *"In conclusion"*).
+- **Mathematical Formulations:** Clean display equations followed immediately by lowercase `where $a$ denotes...` defining all terms (never informal `"here a = ..."`).
+- **Document Layout:** Exactly 6 main sections standard, core subsections only, strictly a one-paragraph conclusion, and 600+ DPI visuals with concise captions.

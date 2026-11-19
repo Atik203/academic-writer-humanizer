@@ -36,6 +36,8 @@ GENERIC_FRAMES = [
     r'in recent years.*attracted.*attention', r'with the rapid development of', r'despite recent advances',
     r'paves? the way', r'sheds? light on', r'bridges? the gap', r'of paramount importance',
     r'to the best of our knowledge',
+    r'stands? as a testament to', r'comprehensive tapestry', r'serves? as a (?:critical|pivotal) milestone',
+    r'cannot be overlooked', r'delve(?:s|d)? into the multifaceted', r'provides? a robust framework',
 ]
 PARTICIPIAL = re.compile(r',\s+(highlighting|demonstrating|ensuring|contributing to|underscoring|showcasing|emphasizing|paving the way|encompassing|cultivating)\b', re.I)
 NOT_ONLY = re.compile(r'\bnot only\b.*\bbut also\b|\bnot just\b.*\bbut\b|\bit.s not\b.*\bit.s\b|\bthis does not mean\b.*\bit means\b', re.I)
